@@ -1,31 +1,31 @@
-# SkillSwap
+# Let's Connect
 
-**SkillSwap** is a full-stack Edtech platform with an e-commerce touch that allows users to buy and access courses, manage profiles, and become instructors. The platform offers seamless user experiences with JWT authentication, email verification, payment gateway integration, and instructor dashboards with performance tracking.
+**Let's Connect** is a full-stack social networking platform built using the MERN stack (MongoDB, Express.js, React.js, Node.js). The platform enables users to search and add friends, manage their friend lists, and receive friend recommendations based on mutual connections.
 
 ## Features
 
 ### 1. **User Authentication**
 - **JWT Authentication**: Secure user authentication using JSON Web Tokens.
 - **Email Verification**: Nodemailer is used to verify user emails during the registration process.
+- **Sign Up & Login**: Users can register with unique usernames and log in securely.
+- **Authentication Protection**: Sessions are protected with JWT, and user data is secured.
 
-### 2. **Course Marketplace**
-- **Browse Courses**: Users can view available courses categorized on the home page.
-- **Buy Courses**: Stripe integration allows users to make secure payments for courses.
-- **Access Course Player**: Users can access purchased courses with video players powered by Cloudinary and handle assignments using React PDF.
-
-### 3. **Instructor Functionality**
-- **Create Courses**: Users can complete their profiles and become instructors, allowing them to add their own courses.
-- **Instructor Dashboard**: Instructors can view their performance, track total income, and analyze their data through graphs created by Chart.js.
-
-### 4. **User Account Management**
-- **Profile Management**: Users can complete and update their profiles.
-- **Delete Account**: Users can delete their accounts at any time.
-- **Update Account**: Users can update their account details.
-
+### 2. **User Search and Friend Management**
+- **Search Users**: Users can search for other registered users.
+- **Send Friend Requests**: Users can send friend requests to others.
+- **Accept/Reject Friend Requests**: Users can manage incoming friend requests.
+- **Friend List**: Manage friends, with options to unfriend or view the list of friends.
+### 3. **Friend Recommendation System**
+- **Mutual Friends**: Recommends friends based on the number of mutual connections.
+- **Common Interests**: Users can get recommendations based on shared interests or hobbies.
+- **Recommendation Display**: Suggested friends are shown on the user dashboard.
+### 4. **User Profile**
+- **Profile Management**: Users can complete, update, and manage their profiles.
+- **Friend Request Status**: Display whether a friend request is sent or pending.
 ### 5. **UI/UX Enhancements**
-- **Material UI**: Used for sleek and modern UI components.
-- **Tailwind CSS**: Provides utility-first CSS styling for responsive and consistent design.
-- **React Toast**: Used for providing real-time feedback through toast notifications.
+- **Clean Interface**: A simple, intuitive, and responsive user interface for a seamless experience.
+- **Responsive Design**: Optimized for mobile, tablet, and desktop views.
+- **Real-time Updates**: Get instant feedback on friend requests and actions using real-time notifications.
 
 ## Tech Stack
 
@@ -34,12 +34,13 @@
 - **Material UI**: For UI components and layout.
 - **Tailwind CSS**: For responsive design.
 - **React Toast**: For toast notifications.
+- **Context API**: For efficient state management across the application.
 
 ### **Backend**
 - **Node.js & Express**: Server-side framework for handling routes, authentication, and business logic.
 - **JWT**: For secure user authentication and authorization.
 - **Nodemailer**: For email verification during the registration process.
-- **Stripe**: Payment gateway integration for course purchases.
+- **RESTful API**: Efficient API to manage users, friend requests, and recommendations.
   
 ### **Database**
 - **MongoDB**: NoSQL database for storing user and course data.
@@ -52,13 +53,12 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/skillswap.git
+   git clone https://github.com/your-username/letsConnect.git
 
 2. Navigate to the project directory:
 
     ```bash
-    cd skillswap
-
+    cd letsConnect
 3. Install dependencies for both frontend and backend:
 
       ```bash
@@ -77,8 +77,6 @@
       CLOUDINARY_CLOUD_NAME=<your-cloudinary-cloud-name>
       CLOUDINARY_API_KEY=<your-cloudinary-api-key>
       CLOUDINARY_API_SECRET=<your-cloudinary-api-secret>
-      STRIPE_SECRET_KEY=<your-stripe-secret-key>
-      STRIPE_PUBLISHABLE_KEY=<your-stripe-publishable-key>
       
 5. Start the backend server:
 
@@ -95,11 +93,7 @@
 ## Usage
 
 - Register: Create an account and verify your email.
-- Browse Courses: Explore available courses on the homepage.
-- Buy Courses: Securely pay for courses using Stripe.
-- Access Courses: Access your purchased courses and complete assignments.
-- Become an Instructor: Complete your profile and start adding your own courses.
-- Manage Dashboard: Track your performance and total income as an instructor using the instructor dashboard.
-- Profile Management: Update or delete your account as needed.
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Search for Users: Use the search bar to find other users.
+- Send Friend Requests: Send and manage friend requests from the user profile page.
+- View Recommendations: See a list of recommended friends based on mutual connections.
+- Manage Friends: Accept or reject requests and manage your friend list.
