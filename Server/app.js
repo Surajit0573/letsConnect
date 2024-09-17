@@ -41,7 +41,7 @@ async function main() {
 
 //Home Route
 app.get("/", (req, res) => {
-  const home={massage:"Welcome to skillShare !!"};
+  const home={massage:"Welcome to Let's Connect !!"};
   res.status(201).json({data:home});
 
 });
