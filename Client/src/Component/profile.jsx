@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import Footer from "./footer";
 import Button from '@mui/material/Button';
 import NODP from '../assets/noDP.png';
+
 const override = {
     display: "block",
     margin: "20% auto",
@@ -18,7 +19,7 @@ export default function Profile() {
     const location = useLocation();
     const navigate = useNavigate();
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true); // Add a loading state
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const url = (username && username.length > 0) 
@@ -26,7 +27,7 @@ export default function Profile() {
             : `${import.meta.env.VITE_URL}/api/user/profile/dashboard`;
         
         async function fetchData() {
-            setLoading(true); // Set loading to true before fetching data
+            setLoading(true);
             try {
                 const response = await fetch(url, {
                     method: 'GET',
@@ -52,7 +53,7 @@ export default function Profile() {
                 toast.error('An error occurred while fetching data');
                 navigate('/');
             } finally {
-                setLoading(false); // Set loading to false after fetching data
+                setLoading(false);
             }
         }
 
@@ -104,6 +105,18 @@ export default function Profile() {
                                 <h1 className="text-5xl font-semibold my-4">{data.profile.fullname}</h1>
                                 <h2 className="text-3xl font-semibold my-2">About Me</h2>
                                 <p className="text-xl text-gray-300">{data.profile.about}</p>
+                                
+                                {/* Add Interests Section */}
+                                <h2 className="text-3xl font-semibold my-4">Interests</h2>
+                                <ul className="list-disc list-inside text-xl text-gray-300">
+                                    {data.profile.interests && data.profile.interests.length > 0 ? (
+                                        data.profile.interests.map((interest, index) => (
+                                            <li key={index}>{interest}</li>
+                                        ))
+                                    ) : (
+                                        <p>No interests listed</p>
+                                    )}
+                                </ul>
                             </div>
                         </div>
                     ) : (
