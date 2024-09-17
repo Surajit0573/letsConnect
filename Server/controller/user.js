@@ -345,7 +345,9 @@ module.exports.recommendUsers = async (req, res) => {
     const receivedRequestsIds = user.receivedRequests.map(request => request._id.toString());
 
     // Get a list of all users, excluding the current user
-    const allUsers = await User.find({ _id: { $ne: id } }).populate('friends', '_id');
+    const allUsers = await User.find({ _id: { $ne: id } })
+      .populate('friends', '_id fullname username dp')  // Populate necessary fields for friends
+      .select('_id username profile dp friends');  // Select the required fields from the User model
 
     // Filter users
     const recommendedUsers = allUsers.filter(otherUser => {
@@ -369,6 +371,7 @@ module.exports.recommendUsers = async (req, res) => {
         _id: otherUser._id,
         username: otherUser.username,
         profile: otherUser.profile,
+        dp: otherUser.dp, // Display picture is now available
         mutualFriends,
         mutualFriendsCount: mutualFriends.length, // Number of mutual friends
         isFriend: false,
@@ -376,7 +379,7 @@ module.exports.recommendUsers = async (req, res) => {
       };
     });
 
-    //Sort users by the number of mutual friends in descending order
+    // Sort users by the number of mutual friends in descending order
     recommendations = recommendations.sort((a, b) => b.mutualFriendsCount - a.mutualFriendsCount);
 
     res.json({
@@ -391,11 +394,14 @@ module.exports.recommendUsers = async (req, res) => {
 };
 
 
-
 module.exports.sameInterest = async (req, res) => {
   try {
     const { id } = res.payload;
-    const user = await User.findById(id).populate('friends sentRequests receivedRequests profile');
+    const user = await User.findById(id)
+      .populate('friends', '_id')
+      .populate('sentRequests', '_id')
+      .populate('receivedRequests', '_id')
+      .populate('profile');  // Populate the profile for interests
 
     if (!user) {
       return res.status(404).json({ ok: false, message: 'User not found' });
@@ -409,10 +415,13 @@ module.exports.sameInterest = async (req, res) => {
     const sentRequestsIds = user.sentRequests.map(request => request._id.toString());
     const receivedRequestsIds = user.receivedRequests.map(request => request._id.toString());
 
-    //Get a list of all users, excluding the current user
-    const allUsers = await User.find({ _id: { $ne: id } }).populate('profile');
+    // Get a list of all users, excluding the current user
+    const allUsers = await User.find({ _id: { $ne: id } })
+      .populate('friends', '_id fullname username dp')  // Populate friends' details
+      .populate('profile')  // Populate the profile for interests
+      .select('_id username profile dp friends');  // Select fields for other users
 
-    //Filter users based on shared interests
+    // Filter users based on shared interests
     const recommendedUsers = allUsers.filter(otherUser => {
       const otherUserId = otherUser._id.toString();
 
@@ -431,7 +440,7 @@ module.exports.sameInterest = async (req, res) => {
       return hasCommonInterest && !isAlreadyFriend && !hasSentRequest && !hasReceivedRequest;
     });
 
-    //Calculate the number of shared interests
+    // Calculate the number of shared interests
     let recommendations = recommendedUsers.map(otherUser => {
       const otherUserInterests = (otherUser.profile && otherUser.profile.interests) ? otherUser.profile.interests : [];
       const sharedInterests = userInterests.filter(interest => otherUserInterests.includes(interest));
@@ -439,15 +448,16 @@ module.exports.sameInterest = async (req, res) => {
       return {
         _id: otherUser._id,
         username: otherUser.username,
-        profile: otherUser.profile, 
+        dp: otherUser.dp,  // Added dp for display picture
+        profile: otherUser.profile,
         sharedInterests,
-        sharedInterestsCount: sharedInterests.length,
+        sharedInterestsCount: sharedInterests.length,  // Number of shared interests
         isFriend: false,
         isSent: false
       };
     });
 
-    //Sort users by the number of shared interests in descending order
+    // Sort users by the number of shared interests in descending order
     recommendations = recommendations.sort((a, b) => b.sharedInterestsCount - a.sharedInterestsCount);
 
     res.json({
